@@ -3,9 +3,9 @@ pub mod schema;
 
 use crate::models::{NewUser, User};
 use chrono::NaiveDateTime;
+use chrono::Utc;
 use diesel::prelude::*;
 use dotenvy::dotenv;
-use schema::user::password;
 use std::env;
 
 pub fn establish_connection() -> MysqlConnection {
@@ -20,17 +20,17 @@ pub fn create_user(
     conn: &mut MysqlConnection,
     name: &str,
     email: &str,
-    password: &str,
-    role: models::Role,
+    user_password: &str,
+    role: &str,
 ) -> User {
     use crate::schema::user;
 
     let new_user = NewUser {
         name,
         email,
-        password,
+        password: user_password,
         role,
-        created_at: NaiveDateTime,
+        created_at: NaiveDateTime::from_timestamp(Utc::now().timestamp(), 0),
     };
 
     conn.transaction(|conn| {

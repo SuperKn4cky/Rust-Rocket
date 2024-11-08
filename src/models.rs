@@ -1,12 +1,6 @@
 use chrono::NaiveDateTime;
 use diesel::prelude::*;
 
-pub enum Role {
-    Student,
-    Teacher,
-    Admin,
-}
-
 #[derive(Queryable, Selectable)]
 #[diesel(table_name = crate::schema::user)]
 #[diesel(check_for_backend(diesel::mysql::Mysql))]
@@ -15,7 +9,7 @@ pub struct User {
     pub name: String,
     pub email: String,
     pub password: String,
-    pub role: Role,
+    pub role: String,
     pub created_at: NaiveDateTime,
 }
 
