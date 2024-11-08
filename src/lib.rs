@@ -2,7 +2,6 @@ pub mod models;
 pub mod schema;
 
 use crate::models::{NewUser, User};
-use chrono::NaiveDateTime;
 use chrono::Utc;
 use diesel::prelude::*;
 use dotenvy::dotenv;
@@ -30,7 +29,7 @@ pub fn create_user(
         email,
         password: user_password,
         role,
-        created_at: NaiveDateTime::from_timestamp(Utc::now().timestamp(), 0),
+        created_at: Utc::now().naive_utc(),
     };
 
     conn.transaction(|conn| {
